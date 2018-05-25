@@ -137,6 +137,13 @@ android {
                 manifestPlaceholders += [ARCH: "x86"]
             }
         }
+        allarch {
+            dimension "arch"
+            ndk {
+                abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+                manifestPlaceholders += [ARCH: "allarch"]
+            }
+        }
     }
 
     productFlavors.all {
@@ -174,6 +181,7 @@ dependencies {
     implementation 'com.umeng.sdk:analytics:latest.integration'
 
     implementation 'org.greenrobot:greendao:3.2.0' // add library
-//    compile 'org.greenrobot:greendao-generator:3.2.2'
+//    implementation 'org.greenrobot:greendao-generator:3.2.2'
 
+    implementation 'com.baoyz.swipemenulistview:library:1.3.0'
 }
