@@ -49,7 +49,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion '27.0.3'
     defaultConfig {
-        applicationId "wang.switchy.an2n"
+        applicationId "wang.switchy.hin2n"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode getVersionCode()
@@ -72,10 +72,10 @@ android {
 
         release {
             //为我们的release包添加签名文件配置
-            storeFile file("An2n.jks")
-            storePassword getEnvOrConsole("AN2N_KSTOREPWD", "Keystore password")
-            keyAlias "An2n"
-            keyPassword getEnvOrConsole("AN2N_KEYPWD", "Key password")
+            storeFile file("Hin2n.jks")
+            storePassword getEnvOrConsole("HIN2N_KSTOREPWD", "Keystore password")
+            keyAlias "Hin2n"
+            keyPassword getEnvOrConsole("HIN2N_KEYPWD", "Key password")
         }
     }
 
@@ -98,11 +98,15 @@ android {
 
     //配置自定义打包名称
     applicationVariants.all { variant ->
-        def umeng_appkey = getEnvOrConsole("UMENG_APPKEY", "UMENG appkey")
-        if (umeng_appkey == null) {
-            umeng_appkey = ""
+        if (variant.buildType.name == "release") {
+            def umeng_appkey = getEnvOrConsole("UMENG_APPKEY", "UMENG appkey")
+            if (umeng_appkey == null) {
+                variant.println("UMENG_APPKEY is not set")
+                return
+            }
+            variant.mergedFlavor.manifestPlaceholders += [UMENG_APPKEY_VALUE: umeng_appkey]
         }
-        variant.mergedFlavor.manifestPlaceholders += [UMENG_APPKEY_VALUE: umeng_appkey]
+
         variant.outputs.all { output ->
             def outputFile = output.outputFile
             def fileName = null
@@ -161,7 +165,7 @@ android {
 
 greendao {
     schemaVersion 1 //版本
-    daoPackage 'wang.switchy.an2n.storage.db.base'// 一般为app包名+生成文件的文件夹名
+    daoPackage 'wang.switchy.hin2n.storage.db.base'// 一般为app包名+生成文件的文件夹名
     targetGenDir 'src/main/java' //生成文件路径
 }
 
@@ -184,5 +188,6 @@ dependencies {
 //    implementation 'org.greenrobot:greendao-generator:3.2.2'
 
     implementation 'com.baoyz.swipemenulistview:library:1.3.0'
+
     implementation 'com.github.f0ris.sweetalert:library:1.5.1'
 }
